@@ -39,8 +39,8 @@
     </scm>
 
     <properties>
-        <es.version>2.4.1</es.version>
-        <lucene.version>5.5.2</lucene.version>
+        <es.version>5.0.2</es.version>
+        <lucene.version>6.2.1</lucene.version>
         <jest.version>2.4.0</jest.version>
         <kafka.connect.maven.plugin.version>0.11.1</kafka.connect.maven.plugin.version>
         <confluent.maven.repo>http://packages.confluent.io/maven/</confluent.maven.repo>
@@ -101,18 +101,17 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.elasticsearch</groupId>
-            <artifactId>elasticsearch</artifactId>
+            <groupId>org.elasticsearch.test</groupId>
+            <artifactId>framework</artifactId>
             <version>${es.version}</version>
             <scope>test</scope>
-            <type>test-jar</type>
         </dependency>
         <dependency>
-            <groupId>org.elasticsearch</groupId>
-            <artifactId>elasticsearch</artifactId>
-            <version>${es.version}</version>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-to-slf4j</artifactId>
+            <version>2.7</version>
             <scope>test</scope>
-        </dependency>
+          </dependency>
         <dependency>
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-expressions</artifactId>
@@ -214,13 +213,14 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
+           <!--<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <argLine>@{argLine} -Djava.awt.headless=true -Dtests.security.manager=false -Dtests.jarhell.check=false</argLine>
                 </configuration>
             </plugin>
+            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>

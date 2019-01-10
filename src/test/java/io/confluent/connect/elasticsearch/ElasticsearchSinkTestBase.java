@@ -14,28 +14,26 @@
 
 package io.confluent.connect.elasticsearch;
 
+import static io.confluent.connect.elasticsearch.DataConverter.BehaviorOnNullValues;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-
 import io.confluent.connect.elasticsearch.jest.JestElasticsearchClient;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import org.apache.kafka.common.TopicPartition;
 import org.apache.kafka.connect.data.Schema;
 import org.apache.kafka.connect.data.SchemaBuilder;
 import org.apache.kafka.connect.data.Struct;
 import org.apache.kafka.connect.sink.SinkRecord;
-import org.elasticsearch.cluster.metadata.IndexMetaData;
+import org.elasticsearch.common.network.NetworkModule;
 import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.node.Node;
+import org.elasticsearch.http.HttpTransportSettings;
 import org.elasticsearch.test.ESIntegTestCase;
 import org.junit.After;
 import org.junit.Before;
-
-import java.io.IOException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
-import static io.confluent.connect.elasticsearch.DataConverter.BehaviorOnNullValues;
 
 public class ElasticsearchSinkTestBase extends ESIntegTestCase {
 
@@ -129,19 +127,8 @@ public class ElasticsearchSinkTestBase extends ESIntegTestCase {
     }
   }
 
-  /* For ES 2.x */
-  @Override
-  protected Settings nodeSettings(int nodeOrdinal) {
-    return Settings.settingsBuilder()
-        .put(super.nodeSettings(nodeOrdinal))
-        .put(IndexMetaData.SETTING_NUMBER_OF_SHARDS, 1)
-        .put(IndexMetaData.SETTING_NUMBER_OF_REPLICAS, 1)
-        .put(Node.HTTP_ENABLED, true)
-        .build();
-  }
 
   /* For ES 5.x (requires Java 8) */
-  /*
   @Override
   protected Settings nodeSettings(int nodeOrdinal) {
     int randomPort = randomIntBetween(49152, 65525);
@@ -153,13 +140,12 @@ public class ElasticsearchSinkTestBase extends ESIntegTestCase {
         .build();
   }
 
-  @Override
+ /* @Override
   protected Collection<Class<? extends Plugin>> nodePlugins() {
     System.setProperty("es.set.netty.runtime.available.processors", "false");
     Collection<Class<? extends Plugin>> al = new ArrayList<Class<? extends Plugin>>();
     al.add(Netty4Plugin.class);
     return al;
   }
-  */
-
+*/
 }
